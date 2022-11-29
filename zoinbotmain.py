@@ -1,7 +1,24 @@
+import discord
+import os
+import requests
+import json
 
-def print_hi(name):
+intents = discord.Intents.default()
+intents.message_content = True
+client = discord.Client(intents=intents)
 
-    print(f'Hi, {name}')
 
-if __name__ == '__main__':
-    print_hi('zoinbot')
+@client.event
+async def on_ready():
+    print('We have logged in as {0.user}'.format(client))
+
+
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+
+    if message.content.startswith('$hello'):
+        await message.channel.send('Hello!')
+
+client.run(os.getenv('TOKEN'))
